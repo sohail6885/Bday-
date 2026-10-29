@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#21152e">
+  <title>Happy Birthday, Dr. Aashlesha!</title>
+  <style>
+    :root {
+      --plum: #21152e;
+      --pink: #f6b8cc;
+      --ivory: #fff5f0;
+      --muted: #ddcddd;
+      --line: rgba(255,255,255,.13);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 22px 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--ivory);
+      background: radial-gradient(ellipse at top, #392747 0%, var(--plum) 58%);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    button { font: inherit; }
+    .app {
+      width: min(100%, 480px);
+      min-height: min(780px, calc(100vh - 32px));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .screen {
+      display: none;
+      width: 100%;
+      text-align: center;
+      animation: appear .4s ease both;
+    }
+    .screen.active { display: block; }
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .eyebrow {
+      color: var(--pink);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font: 700 .72rem/1.5 Arial, sans-serif;
+      margin: 0 0 12px;
+    }
+    h1, h2 { margin: 0; font-weight: 600; line-height: 1.12; }
+    h1 { font-size: clamp(2.15rem, 8.5vw, 3.15rem); }
+    h2 { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+    .pink { color: var(--pink); }
+    .intro { color: var(--muted); font: 1rem/1.65 Arial, sans-serif; }
+    .hero-photo {
+      display: block;
+      width: min(72%, 275px);
+      height: 280px;
+      margin: 24px auto 17px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+    }
+    .gift-photo {
+      width: 100%;
+      max-width: 390px;
+      height: min(48vh, 360px);
+      min-height: 250px;
+      object-fit: contain;
+      display: block;
+      margin: 22px auto 18px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+      padding: 7px;
+    }
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border: 0;
+      border-radius: 999px;
+      background: var(--pink);
+      color: var(--plum);
+      padding: 14px 24px;
+      min-height: 48px;
+      font: 700 .95rem/1.25 Arial, sans-serif;
+      cursor: pointer;
+      box-shadow: 0 5px 18px rgba(0,0,0,.12);
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .button:hover { transform: translateY(-2px); filter: brightness(1.04); }
+    .button:focus-visible, .music-toggle:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+    .small-note { color: #c9b9d0; font: .78rem/1.5 Arial, sans-serif; margin-top: 17px; }
+    .music-toggle {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      border: 1px solid var(--line);
+      color: var(--ivory);
+      background: rgba(33,21,46,.78);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font: .78rem Arial, sans-serif;
+      cursor: pointer;
+      z-index: 30;
+    }
+    .message-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 18px;
+      background: rgba(255,255,255,.035);
+      margin-top: 22px;
+    }
+    .message-card p { font: .98rem/1.8 Arial, sans-serif; color: var(--muted); }
+    .footer { color: #bdaec5; font: .72rem/1.5 Arial, sans-serif; margin-top: 22px; }
+    .confetti {
+      position: fixed;
+      top: -20px;
+      width: 8px;
+      height: 12px;
+      z-index: 20;
+      pointer-events: none;
+      animation: fall var(--duration, 2.2s) linear forwards;
+    }
+    @keyframes fall {
+      to { transform: translate3d(var(--drift, 20px), 110vh, 0) rotate(700deg); opacity: .15; }
+    }
+    @media (max-width: 380px) {
+      .hero-photo { height: 245px; }
+      .gift-photo { min-height: 225px; }
+      .app { min-height: calc(100vh - 24px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false">♫ Music: Off</button>
+
+  <main class="app">
+    <!-- START SCREEN: add Aashlesha's original photo as aashlesha.jpg -->
+    <section class="screen active" id="welcome" aria-labelledby="welcomeTitle">
+      <p class="eyebrow">A little surprise ♡</p>
+      <h1 id="welcomeTitle">Happy Birthday,</h1>
+      <h1 class="pink">Dr. Aashlesha!</h1>
+      <img class="hero-photo" src="aashlesha.jpg" alt="Aashlesha" onerror="this.style.display='none'; document.getElementById('photoHint').style.display='block';">
+      <p id="photoHint" class="small-note" style="display:none">Upload her original photo and name it <strong>aashlesha.jpg</strong>.</p>
+      <p class="intro">A little birthday surprise made just for you. 💗</p>
+      <button class="button" id="startButton" type="button">These gifts are for you ♡</button>
+      <p class="small-note">Made with a little love and a lot of birthday wishes.</p>
+    </section>
+
+    <!-- GIFTS: each JPG is displayed large, one at a time -->
+    <section class="screen" id="giftScreen" aria-live="polite">
+      <p class="eyebrow" id="giftCount">Gift 1 of 4</p>
+      <h2 class="pink" id="giftTitle">A little sweetness</h2>
+      <img class="gift-photo" id="giftImage" src="cake.jpg" alt="Birthday cake">
+      <p class="intro" id="giftMessage"></p>
+      <button class="button" id="nextGift" type="button">Next surprise →</button>
+      <p class="small-note">One surprise at a time ♡</p>
+    </section>
+
+    <!-- FINAL SCREEN -->
+    <section class="screen" id="finalScreen" aria-labelledby="finalTitle">
+      <p class="eyebrow">One last thing ♡</p>
+      <h2 id="finalTitle" class="pink">Happy Birthday,<br>Dr. Aashlesha!</h2>
+      <div class="message-card">
+        <p>Keep smiling, keep shining, and keep making beautiful memories. May this new year bring you happiness, success, and everything your heart wishes for.</p>
+        <p>For now, enjoy these virtual gifts… real gifts are a separate negotiation. 😂🎁</p>
+        <p class="pink"><strong>— From your friend ♡</strong></p>
+      </div>
+      <button class="button" id="replayButton" type="button">Replay the surprise ↻</button>
+      <p class="footer">Made especially for your birthday.</p>
+    </section>
+  </main>
+
+  <script>
+    // Upload files using these exact filenames (all in the same GitHub repository folder as index.html).
+    const gifts = [
+      {
+        image: 'cake.jpg',
+        alt: 'Birthday cake',
+        title: 'A little sweetness',
+        message: 'A little sweetness for your special day, Dr. Aashlesha. Make a wish! 🎂'
+      },
+      {
+        image: 'dyson.jpg',
+        alt: 'Dyson hair styler',
+        title: 'Hair goals',
+        message: 'For your future iconic hair days. Your virtual stylist has arrived! 💗'
+      },
+      {
+        image: 'hair-clips-earrings.jpg',
+        alt: 'Hair clips and earrings',
+        title: 'Cute little details',
+        message: 'Tiny accessories, big main-character energy. 🎀'
+      },
+      {
+        image: 'watch.jpg',
+        alt: 'A cute wristwatch',
+        title: 'The final surprise',
+        message: 'For all the beautiful moments waiting for you. Your final little surprise! ⌚'
+      }
+    ];
+
+    const screens = [...document.querySelectorAll('.screen')];
+    const showScreen = (id) => {
+      screens.forEach(screen => screen.classList.toggle('active', screen.id === id));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    let giftIndex = 0;
+    const giftImage = document.getElementById('giftImage');
+    const giftTitle = document.getElementById('giftTitle');
+    const giftMessage = document.getElementById('giftMessage');
+    const giftCount = document.getElementById('giftCount');
+    const nextGift = document.getElementById('nextGift');
+
+    function renderGift(index) {
+      const gift = gifts[index];
+      giftCount.textContent = `Gift ${index + 1} of ${gifts.length}`;
+      giftTitle.textContent = gift.title;
+      giftImage.src = gift.image;
+      giftImage.alt = gift.alt;
+      giftMessage.textContent = gift.message;
+      nextGift.textContent = index === gifts.length - 1 ? 'Read your birthday wish ♡' : 'Next surprise →';
+    }
+
+    function confettiBurst() {
+      const colors = ['#f6b8cc', '#fff5f0', '#d9a9f5', '#f6e9d4'];
+      for (let i = 0; i < 34; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti';
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.setProperty('--duration', `${1.6 + Math.random() * 1.8}s`);
+        piece.style.setProperty('--drift', `${Math.random() * 150 - 75}px`);
+        piece.style.animationDelay = `${Math.random() * .25}s`;
+        document.body.appendChild(piece);
+        window.setTimeout(() => piece.remove(), 4200);
+      }
+    }
+
+    document.getElementById('startButton').addEventListener('click', () => {
+      startMusic();
+      giftIndex = 0;
+      renderGift(giftIndex);
+      showScreen('giftScreen');
+      confettiBurst();
+    });
+
+    nextGift.addEventListener('click', () => {
+      if (giftIndex < gifts.length - 1) {
+        giftIndex += 1;
+        renderGift(giftIndex);
+        const panel = document.getElementById('giftScreen');
+        panel.classList.remove('active');
+        void panel.offsetWidth;
+        panel.classList.add('active');
+      } else {
+        showScreen('finalScreen');
+        confettiBurst();
+      }
+    });
+
+    document.getElementById('replayButton').addEventListener('click', () => {
+      giftIndex = 0;
+      showScreen('welcome');
+    });
+
+    // A short, original birthday-style melody made in-browser; no audio file is needed.
+    let audioContext = null;
+    let musicTimer = null;
+    let musicOn = false;
+    let notePosition = 0;
+    const melody = [
+      [523.25, .24], [523.25, .24], [587.33, .48], [523.25, .48],
+      [698.46, .48], [659.25, .9], [523.25, .24], [523.25, .24],
+      [587.33, .48], [523.25, .48], [783.99, .48], [698.46, .9]
+    ];
+
+    function playNote(frequency, duration) {
+      if (!audioContext || !musicOn) return;
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.type = 'sine';
+      oscillator.frequency.value = frequency;
+      gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.075, audioContext.currentTime + .025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration + .03);
+    }
+
+    function startMusic() {
+      if (musicOn) return;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) {
+        document.getElementById('musicToggle').textContent = 'Music unavailable';
+        return;
+      }
+      audioContext = audioContext || new AudioContextClass();
+      audioContext.resume();
+      musicOn = true;
+      document.getElementById('musicToggle').textContent = '♫ Music: On';
+      document.getElementById('musicToggle').setAttribute('aria-pressed', 'true');
+      notePosition = 0;
+      playMelody();
+    }
+
+    function playMelody() {
+      if (!musicOn) return;
+      const [frequency, duration] = melody[notePosition];
+      playNote(frequency, duration * .85);
+      notePosition = (notePosition + 1) % melody.length;
+      musicTimer = window.setTimeout(playMelody, duration * 1000);
+    }
+
+    function stopMusic() {
+      musicOn = false;
+      if (musicTimer) window.clearTimeout(musicTimer);
+      document.getElementById('musicToggle').textContent = '♫ Music: Off';
+      document.getElementById('musicToggle').setAttribute('aria-pressed', 'false');
+    }
+
+    document.getElementById('musicToggle').addEventListener('click', () => {
+      if (musicOn) stopMusic();
+      else startMusic();
+    });
+  </script>
+</body>
+</html>
